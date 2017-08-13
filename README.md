@@ -16,10 +16,6 @@ react native内置的`RefreshControl`不能满足需求
 
 github上一些js only的下拉刷新组件，比如`react-native-swRefresh`等，在android上体验比较差
 
-## TODO
-
-* 自定义header
-
 ## ScreenShots
 
 * android
@@ -30,3 +26,6 @@ github上一些js only的下拉刷新组件，比如`react-native-swRefresh`等�
 
     待续...
 
+## TODO
+
+* 自定义header
