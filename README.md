@@ -1,6 +1,6 @@
 # ReactNativePullToRefreshSample
 
-下拉刷新例子。
+react native下拉刷新
 
 * android
 
