@@ -30,7 +30,7 @@ class Root extends Component {
             this.setState({
                 refreshing: false
             });
-        }, 200);
+        }, 1000);
     }
     render() {
         return (<ScrollView style={styles.container} refreshControl={
