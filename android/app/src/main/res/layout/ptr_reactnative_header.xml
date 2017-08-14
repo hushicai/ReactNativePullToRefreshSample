@@ -1,32 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="60dp"
-    android:gravity="center">
-
-    <LinearLayout
-        android:id="@+id/ptr_reactnative_header_rotate_view_header_text"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/ptr_reactnative_header_rotate_view_header_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#666666"
-            android:textSize="12sp" />
-
-    </LinearLayout>
+    android:gravity="center"
+    android:orientation="vertical">
 
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="10dp"
-        android:layout_toLeftOf="@+id/ptr_reactnative_header_rotate_view_header_text">
+        >
 
         <ImageView
             android:id="@+id/ptr_reactnative_header_rotate_view"
@@ -42,6 +24,24 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center" />
     </FrameLayout>
-</RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ptr_reactnative_header_rotate_view_header_text"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/ptr_reactnative_header_rotate_view_header_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#666666"
+            android:textSize="12sp"
+            android:gravity="center" />
+
+    </LinearLayout>
+
+</LinearLayout>
 
 
