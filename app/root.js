@@ -30,10 +30,10 @@ class Root extends Component {
             this.setState({
                 refreshing: false
             });
-        }, 1000);
+        }, 200);
     }
     render() {
-        return (<ScrollView refreshControl={
+        return (<ScrollView style={styles.container} refreshControl={
             <RefreshControl
                 refreshing={this.state.refreshing}
                 onRefresh={this._onRefresh.bind(this)}
@@ -47,6 +47,9 @@ class Root extends Component {
 }
 
 const styles = StyleSheet.create({
+    containter: {
+        backgroundColor: 'red'
+    },
     content: {
         alignItems: 'center',
         paddingVertical: 20,

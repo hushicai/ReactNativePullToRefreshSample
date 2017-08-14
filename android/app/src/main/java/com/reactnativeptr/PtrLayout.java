@@ -79,14 +79,49 @@ public class PtrLayout extends ViewGroupManager<PtrReactNativeFrameLayout> {
 
     @Override
     public void addView(PtrReactNativeFrameLayout parent, View child, int index) {
-        super.addView(parent, child, 1);
-        parent.updateLayout();
+        parent.setContentView(child);
     }
 
-    @ReactProp(name = "refreshing")
-    public void setRefreshing(PtrReactNativeFrameLayout view, boolean refreshing) {
-        if (refreshing == false) {
-            view.refreshComplete();
-        }
+    // -----------------  styleable attrs ----------------
+
+    @ReactProp(name = "resistance", defaultFloat = 1.7f)
+    public void setResistance(PtrReactNativeFrameLayout view, float resistance) {
+        view.setResistance(resistance);
     }
+
+    @ReactProp(name = "durationToCloseHeader", defaultInt = 200)
+    public void setDurationToCloseHeader(PtrReactNativeFrameLayout view, int duration) {
+        view.setDurationToCloseHeader(duration);
+    }
+
+    @ReactProp(name = "durationToClose", defaultInt = 300)
+    public void setDurationToClose(PtrReactNativeFrameLayout view, int duration) {
+        view.setDurationToClose(duration);
+    }
+
+    @ReactProp(name = "ratioOfHeaderHeightToRefresh", defaultFloat = 1.2f)
+    public void setRatioOfHeaderHeightToRefresh(PtrReactNativeFrameLayout view, float ratio) {
+        view.setRatioOfHeaderHeightToRefresh(ratio);
+    }
+
+    @ReactProp(name = "pullToRefresh", defaultBoolean = false)
+    public void setPullToRefresh(PtrReactNativeFrameLayout view, boolean pullToRefresh) {
+        view.setPullToRefresh(pullToRefresh);
+    }
+
+    @ReactProp(name = "keepHeaderWhenRefresh", defaultBoolean = false)
+    public void setKeepHeaderWhenRefresh(PtrReactNativeFrameLayout view, boolean keep) {
+        view.setKeepHeaderWhenRefresh(keep);
+    }
+
+    @ReactProp(name = "pinContent", defaultBoolean = false)
+    public void setPinContent(PtrReactNativeFrameLayout view, boolean pinContent) {
+        view.setPinContent(pinContent);
+    }
+
+    public void setHeaderRotateAniTime(PtrReactNativeFrameLayout view, int time) {
+        view.getHeader().setRotateAniTime(time);
+    }
+
+    // ------------------- end styleable -------------
 }

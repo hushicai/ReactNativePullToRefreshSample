@@ -2,8 +2,8 @@ package com.reactnativeptr;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 
-import in.srain.cube.views.ptr.PtrClassicDefaultHeader;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 
 /**
@@ -11,7 +11,7 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
  */
 
 public class PtrReactNativeFrameLayout extends PtrFrameLayout {
-    private PtrClassicDefaultHeader mPtrClassicHeader;
+    private PtrReactNativeHeader mPtrReactNativeHeader;
 
     public PtrReactNativeFrameLayout(Context context) {
         super(context);
@@ -29,12 +29,26 @@ public class PtrReactNativeFrameLayout extends PtrFrameLayout {
     }
 
     public void initViews() {
-        mPtrClassicHeader = new PtrClassicDefaultHeader(getContext());
-        setHeaderView(mPtrClassicHeader);
-        addPtrUIHandler(mPtrClassicHeader);
+        mPtrReactNativeHeader = new PtrReactNativeHeader(getContext());
+        setHeaderView(mPtrReactNativeHeader);
+        addPtrUIHandler(mPtrReactNativeHeader);
     }
 
-    public void updateLayout() {
-        super.onFinishInflate();
+    public PtrReactNativeHeader getHeader() {
+        return mPtrReactNativeHeader;
+    }
+
+    /**
+     * update layout when rn addView
+     */
+    public void setContentView(View content) {
+        if (mContent != null && content != null && mContent != content) {
+            removeView(content);
+        }
+
+        mContent = content;
+        addView(content);
+
+//        super.onFinishInflate();
     }
 }
