@@ -2,59 +2,28 @@
  * created by hushicai on 2017/8/12
  */
 
+
 import React, {Component} from 'react';
 import {
-    View,
+    AppRegistry,
     Text,
-    ScrollView,
-    StyleSheet,
+    View,
+    Button
 } from 'react-native';
-import RefreshControl from './components/RefreshControl/ptr';
+import { StackNavigator } from 'react-navigation';
 
-class Root extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            refreshing: false
-        };
-    }
-    _onRefresh() {
-        this.setState({
-            refreshing: true
-        });
+import Home from './pages/Home';
+import Default from './pages/Default';
+import SwRefresh from './pages/SwRefresh';
+import Refreshable from './pages/Refreshable';
 
-        console.log('refreshing...');
 
-        setTimeout(() => {
-            console.log('timeout');
-            this.setState({
-                refreshing: false
-            });
-        }, 1000);
-    }
-    render() {
-        return (<ScrollView style={styles.container} refreshControl={
-            <RefreshControl
-                refreshing={this.state.refreshing}
-                onRefresh={this._onRefresh.bind(this)}
-            />
-        }>
-            <View style={styles.content}>
-                <Text>下拉有惊喜</Text>
-            </View>
-        </ScrollView>);
-    }
-}
-
-const styles = StyleSheet.create({
-    containter: {
-        backgroundColor: 'red'
-    },
-    content: {
-        alignItems: 'center',
-        paddingVertical: 20,
-        backgroundColor: 'yellow'
-    }
+const ReactNativePullToRefreshSample = StackNavigator({
+    Home: { screen: Home },
+    Default: {screen: Default},
+    SwRefresh: {screen: SwRefresh},
+    Refreshable: {screen: Refreshable}
 });
 
-export default Root;
+AppRegistry.registerComponent('ReactNativePullToRefreshSample', () => ReactNativePullToRefreshSample);
+
