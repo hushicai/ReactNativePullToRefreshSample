@@ -7,11 +7,10 @@
 import React, { Component } from 'react';
 import {
     AppRegistry,
-    StyleSheet,
+  StyleSheet,
     View,
     PanResponder,
     LayoutAnimation,
-    ProgressBarAndroid,
     Dimensions,
     Text,
     AsyncStorage,
@@ -56,7 +55,7 @@ let lastMoveY=0;
 
 let hasMovedDistance=0;
 
-UIManager.setLayoutAnimationEnabledExperimental(true);
+// UIManager.setLayoutAnimationEnabledExperimental(true);
 
 class PullToRefreshLayout extends Component{
 
@@ -83,7 +82,7 @@ class PullToRefreshLayout extends Component{
     //要求成为响应者
     _handleStartShouldSetPanResponder(e: Object, gestureState: Object): boolean {
         console.log("进入....startShould");
-        return true;
+        return false;
     }
     _handleMoveShouldSetPanResponder(e: Object, gestureState: Object): boolean {
         console.log('进入....moveShould');
@@ -280,10 +279,10 @@ class PullToRefreshLayout extends Component{
         this._panResponder=PanResponder.create({
             onStartShouldSetPanResponder: this._handleStartShouldSetPanResponder,
             onMoveShouldSetPanResponder: this._handleMoveShouldSetPanResponder,
-            onStartShouldSetResponderCapture: () => true,
-            onMoveShouldSetResponderCapture: () => true,
+            // onstartshouldsetrespondercapture: () => true,
+            // onmoveshouldsetrespondercapture: () => true,
             onResponderTerminate: () => {console.log('terminate...')},
-            onResponderTerminationRequest: () => true,
+            // onResponderTerminationRequest: () => true,
             onPanResponderGrant: this._handlePanResponderGrant,
             onPanResponderMove: this._handlePanResponderMove,
             onPanResponderRelease: this._handlePanResponderEnd,
@@ -338,12 +337,13 @@ class PullToRefreshLayout extends Component{
     }
 }
 
-export default PullToRefreshLayout;
-
-var styles = StyleSheet.create({
-    base: {
-        flex: 1,
-        position :'relative'
-    },
+const styles = StyleSheet.create({
+  base: {
+    flex: 1,
+    position :'relative'
+  },
 });
+
+
+export default PullToRefreshLayout;
 
