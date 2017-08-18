@@ -2,12 +2,16 @@
  * Created by hushicai
  */
 
-'use strict'
+// flex、absolute导致scrollView不能滚动
+// panResponder和scrollview嵌套，导致手势冲突，没有规律
+
+'use strict';
 
 import React, { Component } from 'react';
 import {
     AppRegistry,
   StyleSheet,
+    ScrollView,
     View,
     PanResponder,
     LayoutAnimation,
@@ -17,7 +21,6 @@ import {
     UIManager
 } from 'react-native';
 
-
 // import PluImageLayout from './PluImageLayout';
 
 let self;
@@ -25,6 +28,7 @@ let self;
 const PULL_REFRESH_LAYOUT="pullLayout";
 /**屏幕宽度*/
 const deviceWidth = Dimensions.get('window').width;
+const deviceHeight = Dimensions.get('window').height;
 /**下拉阻力系数*/
 const factor=1.8;
 /**最大下拉高度*/
@@ -55,11 +59,10 @@ let lastMoveY=0;
 
 let hasMovedDistance=0;
 
-// UIManager.setLayoutAnimationEnabledExperimental(true);
+let scrollY = 0;
 
 class PullToRefreshLayout extends Component{
 
-    _panResponder:{}
     // 构造
     constructor(props) {
         super(props);
@@ -85,8 +88,8 @@ class PullToRefreshLayout extends Component{
         return false;
     }
     _handleMoveShouldSetPanResponder(e: Object, gestureState: Object): boolean {
-        console.log('进入....moveShould');
-        if (gestureState.moveY>gestureState.y0){
+        console.log('进入....moveShould', gestureState.dy, scrollY);
+        if (gestureState.dy > 0 && scrollY <= 0){
             return true;
         }
         else{
@@ -100,7 +103,7 @@ class PullToRefreshLayout extends Component{
 
     //touch move 响应滑动事件
     _handlePanResponderMove(nativeEvent: Object, gestureState: Object) {
-        console.log('move.......');
+        console.log('move.......', gestureState.dy);
         //判断当前移动距离 是否 大于可触发刷新距离
         if(self.state.currentDistance>REFRESH_PULL_LENGTH){
             //判断是否需要改变状态
@@ -255,6 +258,7 @@ class PullToRefreshLayout extends Component{
 
     /**onTouchUp 事件*/
     _handlePanResponderEnd(e: Object, gestureState: Object) {
+        console.log('进入....release');
         if (self.state.currentDistance>=REFRESH_PULL_LENGTH){
             self.refreshStateHeader();
         }
@@ -279,15 +283,19 @@ class PullToRefreshLayout extends Component{
         this._panResponder=PanResponder.create({
             onStartShouldSetPanResponder: this._handleStartShouldSetPanResponder,
             onMoveShouldSetPanResponder: this._handleMoveShouldSetPanResponder,
-            // onstartshouldsetrespondercapture: () => true,
-            // onmoveshouldsetrespondercapture: () => true,
-            onResponderTerminate: () => {console.log('terminate...')},
-            // onResponderTerminationRequest: () => true,
+            // onStartShouldSetPanResponderCapture: () => true,
+            // onMoveShouldSetPanResponderCapture: () => true,
+            // onResponderTerminate: () => {console.log('terminate...')},
+            onPanResponderTerminationRequest: () => false,
             onPanResponderGrant: this._handlePanResponderGrant,
             onPanResponderMove: this._handlePanResponderMove,
             onPanResponderRelease: this._handlePanResponderEnd,
             onPanResponderTerminate: this._handlePanResponderEnd,
         });
+    }
+
+    componentWillUnMount() {
+        scrollY = 0;
     }
 
 
@@ -305,6 +313,8 @@ class PullToRefreshLayout extends Component{
 
 
     render(){
+        let children = this.props.children;
+
         let pullText;
         let indicatorView=null;
         if (this.state.showPullStatus===ShowLoadingStatus.SHOW_DOWN){
@@ -318,30 +328,50 @@ class PullToRefreshLayout extends Component{
         }
         return (
             <View style={styles.base}>
-                <View style={{backgroundColor:'white',position:'absolute',overflow:'hidden'}}>
-                    <View style={{justifyContent:'center',alignItems:'center',width:deviceWidth,height:REFRESH_PULL_LENGTH,flexDirection:'row'}}>
-                        {indicatorView}
-                        <View style={{height:REFRESH_PULL_LENGTH,justifyContent:'center',alignItems:'center',marginLeft:10}}>
-                            <Text style={{fontSize:12,color:'#666',marginBottom:1}}>{pullText}</Text>
-                            <Text style={{fontSize:12,color:'#666',marginTop:1}}>最后更新:   {this.state.showPullLastTime}</Text>
-                        </View>
+                <View style={styles.refresher}>
+                    {indicatorView}
+                    <View style={{height:REFRESH_PULL_LENGTH,justifyContent:'center',alignItems:'center',marginLeft:10}}>
+                        <Text style={{fontSize:12,color:'#666',marginBottom:1}}>{pullText}</Text>
+                        <Text style={{fontSize:12,color:'#666',marginTop:1}}>最后更新:   {this.state.showPullLastTime}</Text>
                     </View>
                 </View>
-                <View
+                <ScrollView
                     ref={PULL_REFRESH_LAYOUT}
-                    style={{flex:1,position:'absolute',width: deviceWidth}}  {...this._panResponder.panHandlers} >
-                    {this.props.children}
-                </View>
+                    style={styles.responder}
+                    {...this._panResponder.panHandlers}
+                    bounces={false}
+                    onScroll={(e) => {
+                        scrollY = e.nativeEvent.contentOffset.y;
+                    }}
+                    scrollEventThrottle={16}
+                >
+                    {children}
+                </ScrollView>
             </View>
         );
     }
 }
 
 const styles = StyleSheet.create({
-  base: {
-    flex: 1,
-    position :'relative'
-  },
+    base: {
+        flex: 1,
+        position :'relative',
+        // minHeight: deviceHeight
+    },
+    refresher: {
+        backgroundColor:'white',
+        position:'absolute',
+        // overflow:'hidden',
+        justifyContent:'center',
+        alignItems: 'center',
+        width: deviceWidth,
+        height: REFRESH_PULL_LENGTH,
+        flexDirection:'row'
+    },
+    responder: {
+        ...StyleSheet.absoluteFillObject,
+        backgroundColor: '#F5FCFF',
+    }
 });
 
 
