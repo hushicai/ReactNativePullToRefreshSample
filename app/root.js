@@ -19,9 +19,9 @@ import Refreshable from './pages/Refreshable';
 
 
 const ReactNativePullToRefreshSample = StackNavigator({
-    Home: { screen: Home },
-    Default: {screen: Default},
-    SwRefresh: {screen: SwRefresh},
+    // Home: { screen: Home },
+    // Default: {screen: Default},
+    // SwRefresh: {screen: SwRefresh},
     Refreshable: {screen: Refreshable}
 });
 
