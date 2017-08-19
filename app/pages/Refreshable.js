@@ -9,7 +9,7 @@ import {
     ScrollView,
     StyleSheet
 } from 'react-native';
-import PullToRefreshLayout from '../components/PullToRefreshLayout';
+import PullToRefreshLayout from '../components/PullToRefreshLayout/index2';
 
 export default class Refreshable extends Component {
     static navigationOptions = {
